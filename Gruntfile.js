@@ -1,0 +1,134 @@
+// Code goes here
+
+'use strict';
+
+module.exports = function (grunt) {
+  // Time how long tasks take. Can help when optimizing build times
+require('time-grunt')(grunt);
+
+// Automatically load required Grunt tasks
+require('jit-grunt')(grunt, {
+  useminPrepare: 'grunt-usemin',
+  ngtemplates: 'grunt-angular-templates',
+  cdnify: 'grunt-google-cdn'
+});
+// Define the configuration for all the tasks
+grunt.initConfig({
+  pkg: grunt.file.readJSON('package.json'),
+
+  // Make sure code styles are up to par and there are no obvious mistakes
+  jshint: {
+    options: {
+      jshintrc: '.jshintrc',
+      reporter: require('jshint-stylish')
+    },
+
+    all: {
+      src: [
+        'Gruntfile.js',
+        'app/scripts/{,*/}*.js'
+      ]
+    }
+  },
+
+   useminPrepare: {
+       html: 'app/menu.html',
+
+useminPrepare: {
+ html: 'app/menu.html',
+ options: {
+   dest: 'dist'
+ }
+},
+
+// Concat
+concat: {
+ options: {
+   separator: ';'
+ },
+
+ dist: {}
+},
+
+// Uglify
+uglify: {
+ dist: {}
+},
+
+cssmin: {
+ dist: {}
+},
+
+filerev: {
+ options: {
+   encoding: 'utf8',
+   algorithm: 'md5',
+   length: 20
+ },
+
+ release: {
+   files: [{
+     src: [
+       'dist/scripts/*.js',
+       'dist/styles/*.css',
+     ]
+   }]
+ }
+},
+
+usemin: {
+ html: ['dist/*.html'],
+ css: ['dist/styles/*.css'],
+ options: {
+   assetsDirs: ['dist', 'dist/styles']
+ }
+},
+
+copy: {
+dist: {
+  cwd: 'app',
+  src: [ '**','!styles/**/*.css','!scripts/**/*.js' ],
+  dest: 'dist',
+  expand: true
+},
+
+fonts: {
+  files: [
+    {
+      //for bootstrap fonts
+      expand: true,
+      dot: true,
+      cwd: 'bower_components/bootstrap/dist',
+      src: ['fonts/*.*'],
+      dest: 'dist'
+    }, {
+      //for font-awesome
+      expand: true,
+      dot: true,
+      cwd: 'bower_components/font-awesome',
+      src: ['fonts/*.*'],
+      dest: 'dist'
+    }
+  ]
+}
+},
+
+clean: {
+build: {
+  src: [ 'app/scripts/*.js', 'app/styles/*.css']
+}
+}
+}});
+
+
+grunt.registerTask('build', [
+  'clean',
+  'jshint',
+  'copy'
+]);
+
+grunt.registerTask('serve',['build','connect:dist','watch']);  // Define the configuration for all the tasks
+  grunt.initConfig({
+
+  });
+};
